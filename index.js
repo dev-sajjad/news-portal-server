@@ -9,6 +9,7 @@ const categories = require('./data/categories.json')
 
 const news = require('./data/news.json')
 
+// testing server
 app.get('/', (req, res) => {
     res.send('News Portal Server Running')
 })
@@ -16,11 +17,31 @@ app.get('/', (req, res) => {
 app.get('/news-categories', (req, res) => {
     res.send(categories)
 })
-/* 
-app.get('/news-categories/:id', (req, res) => {
-    const  = categories.find(category.id === id)
+
+app.get('/news', (req, res) => {
     res.send(news)
-}) */
+})
+
+app.get('/category/:id', (req, res) => {
+    const id = req.params.id;
+
+    if (id === '08') {
+        res.send(news)
+    }
+    else {
+        const selectedCategory = news.filter(
+          (category) => category.category_id === id
+        );
+        res.send(selectedCategory);
+    }
+    
+})
+
+app.get('/news/:id', (req, res) => {
+    const id = req.params.id;
+    const selectedNews = news.find(n => n._id === id)
+    res.send(selectedNews)
+})
 
 app.listen(port, () => {
     console.log('News server running on:', port)
